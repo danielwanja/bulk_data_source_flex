@@ -62,7 +62,7 @@ Create one post:
 
 ###  Empty Objects
 
-Objects can be querying when needed
+Objects can be autoloaded when needed
 
 ```javascript
 	BulkResource.find(Post,1, {empty:'comments'}) 
