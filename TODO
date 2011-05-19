@@ -1,0 +1,8 @@
+* Setup Rails app for testing
+* JSON support 
+* Deserialize
+* Serialize
+* Get list of resource from the [RemoteClass]
+* AsyncListView (ItemPendingErrors)
+* Check usage of Managed, DataService, and DynamicManagedItem in mx.data package
+* Support undo/redo
