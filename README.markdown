@@ -25,6 +25,7 @@ Copy the build_data_source.swc to the lib folder of you application.
 ## Usage
 
 First create a dynamic class that maps to a resource:
+
 ```javascript
 	public dynamic class Post extends BulkResource {
 		
@@ -36,11 +37,13 @@ First create a dynamic class that maps to a resource:
 ```
 
 Find all posts with comments:
+
 ```javascript
     var posts:BulkArrayCollection = BulkResource.findAll(Post, {'include':'comments'})
 ```
 
 Create one post:
+
 ```javascript
 	var post:Post = new Post()
 	post.body = "Simple way to interact with Rails"
