@@ -18,16 +18,6 @@ package test.bulk_api
 	{		
 		private var fixtures:Fixtures = new Fixtures;
 		
-		[Before]
-		public function setUp():void
-		{
-		}
-		
-		[After]
-		public function tearDown():void
-		{
-		}
-		
 		[Test]
 		public function testSimpleResource():void {
 			var author:Author = new Author();

@@ -30,17 +30,17 @@ First create a dynamic class that maps to a resource:
 	[RemoteClass(alias="Author")]
 	public dynamic class Author extends BulkResource
 	{
-
+		resource("authors", Author);   // associate resource class...Hope I can determine this based on RemoteClass tag.
 	}
 
 	[RemoteClass(alias="Post")]	
 	public dynamic class Post extends BulkResource {
-		
+		resource("posts", Post)		
 	}
 	
 	[RemoteClass(alias="Comment")]	
 	public dynamic class Comment extends BulkResource {
-		
+		resource("comments", Comment);		
 	}
 ```
 
