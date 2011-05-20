@@ -31,21 +31,17 @@ package bulk_api
 		//-----------------------------------------------
 		
 		/**
-		 * This method takes the raw json received from the Rails app an turns it into an
-		 * array collection of instances of BulkResources.
-		 * Currently this code assume that only one root level association is coming back
-		 * which may not be true.
+		 * This method takes the raw json received from the Rails app an turns every resources collection
+		 * into an array collection of the appropriate BulkResource instances.
 		 */
-		static public function from_json(json:String):ArrayCollection {
+		static public function from_json(json:String):Object {
 			var actionScript:Object = new JSONDecoder(json, /*strict*/true).getValue();
-			var attributes:Array = getAttributeNames(actionScript);
-			// FIXME: convert all attributes...The Result of from_json is an object i.e. {todos:[], projects:[]}
-			var firstAttribute:String = attributes.length > 0 ? attributes[0] : null; 
-			if (firstAttribute) { // Assuming it's always an array based on Katz's comment during his RailsConf talk.
-				return decodeArray(firstAttribute, actionScript[firstAttribute] as Array);
-			} else {
-				return null;
+			var resources:Array = getAttributeNames(actionScript);
+			var result:Object = {};
+			for each (var resource:String in resources) {
+				result[resource] = decodeArray(resource, actionScript[resource] as Array)
 			}
+			return result;
 		}
 		
 		static public function decodeArray(resourceName:String, records:Array):ArrayCollection {

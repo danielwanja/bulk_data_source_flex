@@ -10,7 +10,9 @@ package test.bulk_api
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
+	import org.hamcrest.core.allOf;
 	import org.hamcrest.object.hasProperties;
+	import org.hamcrest.text.containsString;
 	
 	import test.fixtures.Fixtures;
 	import test.models.Author;
@@ -20,31 +22,27 @@ package test.bulk_api
 	{		
 		private var fixtures:Fixtures = new Fixtures;
 		
-		
-		//------------------------------------------------
-		// Simple Resource
-		//------------------------------------------------
-	
 		[Test]
 		public function testEmtpyArray():void {
-			var authors:Object = BulkResource.from_json('{"authors":[]}');
-			assertTrue("Expected ArrayCollection class", authors is ArrayCollection);
-			assertEquals(0, authors.length);
+			var data:Object = BulkResource.from_json('{"authors":[]}');
+			assertTrue("Expected ArrayCollection class", data.authors is ArrayCollection);
+			assertEquals(0, data.authors.length);
 		}
 		
 		[Test]
 		public function testEmptyResponse():void {
 			var authors:Object = BulkResource.from_json('{}');
-			assertNull(authors);
+			var attributes:Array = BulkResource.getAttributeNames(authors); // Using internal method to check if result is really empty.
+			assertEquals(0, attributes.length);
 		}
 		
 		[Test]
-		public function testFromJson():void {
-			var actual:Object = BulkResource.from_json(fixtures.authors);
-			assertTrue("Expected ArrayCollection class", actual is ArrayCollection);
-			var author1:Object = actual.getItemAt(0);
-			var author2:Object = actual.getItemAt(1);
-			var author3:Object = actual.getItemAt(2);
+		public function testSimpleResource():void {
+			var data:Object = BulkResource.from_json(fixtures.authors);
+			assertTrue("Expected ArrayCollection class", data.authors is ArrayCollection);
+			var author1:Object = data.authors.getItemAt(0);
+			var author2:Object = data.authors.getItemAt(1);
+			var author3:Object = data.authors.getItemAt(2);
 			assertTrue("Expected Author class", author1 is Author);
 			assertTrue("Expected Author class", author2 is Author);
 			assertTrue("Expected Author class", author3 is Author);
@@ -68,14 +66,11 @@ package test.bulk_api
 											}));
 			
 		}
-		
-		//------------------------------------------------
-		// Author->Post->Comment: Nested Resource
-		//------------------------------------------------
-		
+				
 		[Test]
 		public function testNestedResources():void {
-			var authors:ArrayCollection = BulkResource.from_json(fixtures.authors_with_posts_and_comments) as ArrayCollection;
+			var data:Object = BulkResource.from_json(fixtures.authors_with_posts_and_comments);
+			var authors:ArrayCollection = data.authors;
 			assertEquals(3, authors.length);
 			var author:Author = authors.getItemAt(0) as Author;
 			assertTrue("Expected posts to be an ArrayCollection", author.posts is ArrayCollection);
@@ -88,6 +83,14 @@ package test.bulk_api
 			assertEquals("Thank you again for the welcome", post.comments.getItemAt(1).body);
 		}
 		
+		[Test]
+		public function testMultipleRootAttributes():void {
+			var json:String = '{"authors":[{"id":1,"name":"David"}], "posts":[{"id":2, "body":"post1"},{"id":3, "body":"post2"}]}';
+			var data:Object = BulkResource.from_json(json);
+			assertEquals(1, data.authors.length);
+			assertEquals(2, data.posts.length);
+			assertEquals("Expecting only authors and post as data attributes", 2, BulkResource.getAttributeNames(data).length); 
+		}
 		
 	}
 }
