@@ -1,12 +1,24 @@
 This document contains several design decisions or thoughts I'll make along the way:
 
+5/20/2001
+- Metadata or Not
+	Rather than using metadata we could check if an attribute has a String that is formatted like 
+	a Rails date and turn into a that and mark that column as a date.
+	Also in a first version we can just send all the attributes that are on the object.
+
 5/19/2011 
 - Using ArrayCollection instead of Vector. 
-- Using dynamic class so we don't have to repeat Rails column_names in Flex.
-  Implications are that we'll need metadata to correctly transform date fields
-  and associations. We also don't want to send non-attribute fields back to the 
-  server. First version will have a metadata.json file that describes
-  all attributes/type and associations. Subsequently that could also include validations
-  to support client side validations. I'll hand code this metadata.json file in a first
-  version but that could be generated dynamically from Rails (gem/rake/...).  
-- using Ruby style attribute names with underscore .i.e. first_name
+- Dynamic class
+	Using dynamic class so we don't have to repeat Rails column_names in Flex.
+	One implication of the dynamic class is that you loose strong typing which ton's of
+	Flex developers will dislike. However as they are going against a Rails app if they do ruby 
+	or talk with the ruby developer they will understand the benefits of staying DRY.
+	Just add a column to the database and it appears as an attribute on your objects. No recompile. 
+- Metadata 
+	Implications are that we'll need metadata to correctly transform date fields
+	and associations. We also don't want to send non-attribute fields back to the 
+	server. First version will have a metadata.json file that describes
+	all attributes/type and associations. Subsequently that could also include validations
+	to support client side validations. I'll hand code this metadata.json file in a first
+	version but that could be generated dynamically from Rails (gem/rake/...).
+- Using Ruby style attribute names with underscore .i.e. first_name

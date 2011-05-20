@@ -9,14 +9,14 @@
 			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()">
 	<fx:Script>
 		<![CDATA[
-			import test.bulk_api.BuilkResourceTest;
+			import test.bulk_api.BulkResourceTest;
 			import mx.core.IFlexModuleFactory;
 			private var link:IFlexModuleFactory;
 			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();
-				testsToRun.push(test.bulk_api.BuilkResourceTest);
+				testsToRun.push(test.bulk_api.BulkResourceTest);
 				return testsToRun;
 			}
 			

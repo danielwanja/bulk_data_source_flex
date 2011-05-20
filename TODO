@@ -1,8 +1,16 @@
-* Setup Rails app for testing
-* JSON support 
-* Deserialize
 * Serialize
+* Resource (that actual calls a server)
+* Refactor BulkResource into three classes: BulkResource, BulkDeserializer, BulkSerializer
+* Add rake task to compile flex and run tests
+* Flex demo TODO app (same as SproutCore's demo)
+
+Maybe:
 * Get list of resource from the [RemoteClass]
 * AsyncListView (ItemPendingErrors)
 * Check usage of Managed, DataService, and DynamicManagedItem in mx.data package
 * Support undo/redo
+
+Complete:
+* Setup Rails app for testing
+* JSON support 
+* Deserialize

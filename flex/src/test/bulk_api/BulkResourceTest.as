@@ -16,7 +16,7 @@ package test.bulk_api
 	import test.models.Author;
 	import test.models.Post;
 
-	public class BuilkResourceTest
+	public class BulkResourceTest
 	{		
 		private var fixtures:Fixtures = new Fixtures;
 		
