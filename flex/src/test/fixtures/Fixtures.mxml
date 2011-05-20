@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<fx:String id="authors">
+			<![CDATA[
+			{"authors":[{"author_address_extra_id":2,"author_address_id":1,"id":1,"name":"David","organization_id":"No Such Agency","owned_essay_id":"A Modest Proposal"},{"author_address_extra_id":null,"author_address_id":null,"id":2,"name":"Mary","organization_id":null,"owned_essay_id":null},{"author_address_extra_id":null,"author_address_id":null,"id":3,"name":"Bob","organization_id":null,"owned_essay_id":null}]}
+			]]>
+		</fx:String>
+
+		<fx:String id="authors_with_posts_and_comments">
+			<![CDATA[
+			{"authors": [
+			{"author_address_extra_id":2,"author_address_id":1,"id":1,"name":"David","organization_id":"No Such Agency","owned_essay_id":"A Modest Proposal","posts":[
+			{"author_id":1,"body":"Such a lovely day","comments_count":2,"id":1,"title":"Welcome to the weblog","comments":[
+			{"body":"Thank you for the welcome","id":1,"post_id":1},
+			{"body":"Thank you again for the welcome","id":2,"post_id":1}]},
+			{"author_id":1,"body":"Like I hopefully always am","comments_count":1,"id":2,"title":"So I was thinking","comments":[
+			{"body":"Don't think too hard","id":3,"post_id":2}]},
+			{"author_id":1,"body":"hello","comments_count":0,"id":4,"title":"sti comments","comments":[
+			{"body":"Very Special type","id":5,"post_id":4},
+			{"body":"Special type","id":6,"post_id":4},
+			{"body":"Special type 2","id":7,"post_id":4},
+			{"body":"Normal type","id":8,"post_id":4},
+			{"body":"Sub special comment","id":12,"post_id":4}]},
+			{"author_id":1,"body":"hello","comments_count":0,"id":5,"title":"sti me","comments":[
+			{"body":"Normal type","id":9,"post_id":5},
+			{"body":"Special Type","id":10,"post_id":5}]},
+			{"author_id":1,"body":"hello","comments_count":0,"id":6,"title":"habtm sti test","comments":[]}]},{"author_address_extra_id":null,"author_address_id":null,"id":2,"name":"Mary","organization_id":null,"owned_essay_id":null,"posts":[
+			{"author_id":2,"body":"hello","comments_count":0,"id":7,"title":"eager loading with OR'd conditions","comments":[
+			{"body":"go crazy","id":11,"post_id":7}]},
+			{"author_id":2,"body":"hello","comments_count":0,"id":9,"title":"misc post by mary","comments":[]},
+			{"author_id":2,"body":"hello","comments_count":0,"id":11,"title":"other post by mary","comments":[]}]},{"author_address_extra_id":null,"author_address_id":null,"id":3,"name":"Bob","organization_id":null,"owned_essay_id":null,"posts":[
+			{"author_id":3,"body":"hello","comments_count":0,"id":8,"title":"misc post by bob","comments":[]},
+			{"author_id":3,"body":"hello","comments_count":0,"id":10,"title":"other post by bob","comments":[]}]}
+			]
+			}			
+			]]>
+		</fx:String>
+
+		<fx:String id="comments">
+			<![CDATA[
+			{"comments":[{"body":"Thank you for the welcome","id":1,"post_id":1,"taggings_count":0},{"body":"Thank you again for the welcome","id":2,"post_id":1,"taggings_count":0},{"body":"Don't think too hard","id":3,"post_id":2,"taggings_count":0},{"body":"Very Special type","id":5,"post_id":4,"taggings_count":0},{"body":"Special type","id":6,"post_id":4,"taggings_count":0},{"body":"Special type 2","id":7,"post_id":4,"taggings_count":0},{"body":"Normal type","id":8,"post_id":4,"taggings_count":0},{"body":"Normal type","id":9,"post_id":5,"taggings_count":0},{"body":"Special Type","id":10,"post_id":5,"taggings_count":0},{"body":"go crazy","id":11,"post_id":7,"taggings_count":0},{"body":"Sub special comment","id":12,"post_id":4,"taggings_count":0}]}			
+			]]>
+		</fx:String>
+
+		<fx:String id="essays">
+			<![CDATA[
+			{"essays":[{"author_id":"David","category_id":"General","id":868201481,"name":"A Modest Proposal","writer_id":"David","writer_type":"Author"}]}
+			]]>
+		</fx:String>
+
+		<fx:String id="posts">
+			<![CDATA[
+			{"posts":[{"author_id":1,"body":"Such a lovely day","comments_count":2,"id":1,"taggings_count":1,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":1,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"Welcome to the weblog"},{"author_id":1,"body":"Like I hopefully always am","comments_count":1,"id":2,"taggings_count":1,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":1,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"So I was thinking"},{"author_id":0,"body":"I just don't want to","comments_count":0,"id":3,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"I don't have any comments"},{"author_id":1,"body":"hello","comments_count":0,"id":4,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"sti comments"},{"author_id":1,"body":"hello","comments_count":0,"id":5,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"sti me"},{"author_id":1,"body":"hello","comments_count":0,"id":6,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"habtm sti test"},{"author_id":2,"body":"hello","comments_count":0,"id":7,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"eager loading with OR'd conditions"},{"author_id":3,"body":"hello","comments_count":0,"id":8,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"misc post by bob"},{"author_id":2,"body":"hello","comments_count":0,"id":9,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"misc post by mary"},{"author_id":3,"body":"hello","comments_count":0,"id":10,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"other post by bob"},{"author_id":2,"body":"hello","comments_count":0,"id":11,"taggings_count":0,"taggings_with_delete_all_count":0,"taggings_with_destroy_count":0,"tags_count":0,"tags_with_destroy_count":0,"tags_with_nullify_count":0,"title":"other post by mary"}]}			
+			]]>
+		</fx:String>
+
+	</fx:Declarations>	
+</fx:Object>

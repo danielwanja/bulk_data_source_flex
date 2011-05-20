@@ -11,8 +11,8 @@
 		<![CDATA[
 			import test.bulk_api.BuilkResourceTest;
 			import mx.core.IFlexModuleFactory;
-			
 			private var link:IFlexModuleFactory;
+			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();

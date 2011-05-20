@@ -1,4 +1,10 @@
 class Author < ActiveRecord::Base
+  
+  def as_json(options={})
+    #super(:include =>{:pots => :comments})
+    super(:include =>{:posts => {:include  => :comments}}) 
+  end  
+  
   has_many :posts
   has_many :very_special_comments, :through => :posts
   has_many :posts_with_comments, :include => :comments, :class_name => "Post"

@@ -4,6 +4,9 @@
     <classEntry path="bulk_api.BulkResource"/>
     <classEntry path="test.models.Author"/>
     <classEntry path="test.bulk_api.BuilkResourceTest"/>
+    <classEntry path="test.models.Post"/>
+    <classEntry path="test.models.Comment"/>
+    <classEntry path="test.fixtures.Fixtures"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

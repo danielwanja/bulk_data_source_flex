@@ -2,12 +2,9 @@ package test.models
 {
 	import bulk_api.BulkResource;
 	
-	[RemoteClass('Author')]
+	[RemoteClass(alias="Author")]
 	public dynamic class Author extends BulkResource
 	{
-		public function Author()
-		{
-			super();
-		}
+
 	}
 }
