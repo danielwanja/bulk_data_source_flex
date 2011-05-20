@@ -1,0 +1,12 @@
+I need to understand how the API works:
+
+fetch: 	/api/bulk?pluralResourceName=all 
+example: http://localhost:3000/api/bulk?posts=all
+result: 
+	records = response.get('body')[this.pluralResourceName(recordType)]
+	primaryKey = recordType.prototype.primaryKey
+	// if primaryKey != 'id' set id to id
+		
+		
+* check what _local_id is
+		

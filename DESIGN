@@ -1,0 +1,12 @@
+This document contains several design decisions or thoughts I'll make along the way:
+
+5/19/2011 
+- Using ArrayCollection instead of Vector. 
+- Using dynamic class so we don't have to repeat Rails column_names in Flex.
+  Implications are that we'll need metadata to correctly transform date fields
+  and associations. We also don't want to send non-attribute fields back to the 
+  server. First version will have a metadata.json file that describes
+  all attributes/type and associations. Subsequently that could also include validations
+  to support client side validations. I'll hand code this metadata.json file in a first
+  version but that could be generated dynamically from Rails (gem/rake/...).  
+- using Ruby style attribute names with underscore .i.e. first_name
