@@ -1,4 +1,4 @@
-# WARNING: Still under heavy maintenance ;) In fact I just started today!
+# WARNING: Still under heavy maintenance ;) In fact I just started yesterday! So don't believe yet everything your read in this readme.
 
 # BulkDataSource - An ActionScript Framework to integrate with Ruby on Rails
 
@@ -27,19 +27,41 @@ Copy the build_data_source.swc to the lib folder of you application.
 First create a dynamic class that maps to a resource:
 
 ```javascript
+	[RemoteClass(alias="Author")]
+	public dynamic class Author extends BulkResource
+	{
+
+	}
+
+	[RemoteClass(alias="Post")]	
 	public dynamic class Post extends BulkResource {
 		
 	}
 	
+	[RemoteClass(alias="Comment")]	
 	public dynamic class Comment extends BulkResource {
 		
 	}
 ```
 
-Find all posts with comments:
+Find all authors with posts and comments:
+
+Note the server side define the attributes and associations to be returned. So if you have the following on the Rails all authors, their posts and comments with all attributes will be returned. They are several options to find tune this and you can even has the as_json method at the ApplicationResource if you need to drive the response based on the user session.
+
+```ruby
+	class Author < ActiveRecord::Base
+  
+	  def as_json(options={})
+	    super(:include =>{:posts => {:include  => :comments}}) 
+	  end
+
+	end
+```
+
+You can then query these nested objects from ActionScript:
 
 ```javascript
-    var posts:BulkArrayCollection = BulkResource.findAll(Post, {'include':'comments'})
+    var posts:BulkArrayCollection = BulkResource.findAll(Author)
 ```
 
 Create one post:
@@ -72,6 +94,7 @@ Objects can be autoloaded when needed
 
 ### Server Side Validations
 
+Based on https://github.com/bcardarella/client_side_validations
 
 ### Uniqueing 
 
