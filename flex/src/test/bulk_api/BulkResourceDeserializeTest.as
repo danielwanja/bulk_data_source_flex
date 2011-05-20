@@ -16,28 +16,13 @@ package test.bulk_api
 	import test.models.Author;
 	import test.models.Post;
 
-	public class BulkResourceTest
+	public class BulkResourceDeserializeTest
 	{		
 		private var fixtures:Fixtures = new Fixtures;
 		
-		[Before]
-		public function setUp():void
-		{
-		}
-		
-		[After]
-		public function tearDown():void
-		{
-		}
-		
-		[Ignore]
-		[Test]
-		public function testRemoteClass():void {
-			
-		}
 		
 		//------------------------------------------------
-		// Author: Simple Resource
+		// Simple Resource
 		//------------------------------------------------
 	
 		[Test]
@@ -85,7 +70,7 @@ package test.bulk_api
 		}
 		
 		//------------------------------------------------
-		// Post->Comment: Nested Resource
+		// Author->Post->Comment: Nested Resource
 		//------------------------------------------------
 		
 		[Test]
@@ -101,14 +86,8 @@ package test.bulk_api
 			assertEquals(2, post.comments.length);
 			assertEquals("Thank you for the welcome", post.comments.getItemAt(0).body);
 			assertEquals("Thank you again for the welcome", post.comments.getItemAt(1).body);
-			
 		}
 		
-		[Ignore]
-		[Test]
-		public function testAsJson():void {
-			
-		}
 		
 	}
 }

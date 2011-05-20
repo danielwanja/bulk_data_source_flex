@@ -1,6 +1,7 @@
 package bulk_api
 {
 	import com.adobe.serialization.json.JSONDecoder;
+	import com.adobe.serialization.json.JSONEncoder;
 	
 	import flash.utils.describeType;
 	
@@ -25,18 +26,29 @@ package bulk_api
 			super();
 		}
 		
-		public static function from_json(json:String):ArrayCollection {
+		//-----------------------------------------------
+		// DECODER
+		//-----------------------------------------------
+		
+		/**
+		 * This method takes the raw json received from the Rails app an turns it into an
+		 * array collection of instances of BulkResources.
+		 * Currently this code assume that only one root level association is coming back
+		 * which may not be true.
+		 */
+		static public function from_json(json:String):ArrayCollection {
 			var actionScript:Object = new JSONDecoder(json, /*strict*/true).getValue();
 			var attributes:Array = getAttributeNames(actionScript);
-			var firstAttribute:String = attributes.length > 0 ? attributes[0] : null; //TODO: check if more than one attribute at root level?
-			if (firstAttribute) { // Assuming it's always array based on Katz's comment.
+			// FIXME: convert all attributes...The Result of from_json is an object i.e. {todos:[], projects:[]}
+			var firstAttribute:String = attributes.length > 0 ? attributes[0] : null; 
+			if (firstAttribute) { // Assuming it's always an array based on Katz's comment during his RailsConf talk.
 				return decodeArray(firstAttribute, actionScript[firstAttribute] as Array);
 			} else {
 				return null;
 			}
 		}
 		
-		public static function decodeArray(resourceName:String, records:Array):ArrayCollection {
+		static public function decodeArray(resourceName:String, records:Array):ArrayCollection {
 		   var result:Array = [];
 		   for each (var record:Object in records) {
 			 result.push(cast(resourceName, record));	   
@@ -44,7 +56,7 @@ package bulk_api
 		   return new ArrayCollection(result);
 		}
 		
-		public static function cast(resourceName:String, record:Object):Object {
+		static public function cast(resourceName:String, record:Object):Object {
 			var clazz:Class = classForResource(resourceName); 
 			var instance:Object = new clazz();
 			for (var attr:String in record) {
@@ -54,27 +66,70 @@ package bulk_api
 					instance[attr] = record[attr];
 				}
 				// TODO: add test to check if instance is dynamic (use describeType+type+.isDynamic)
-				// TODO: transform date fields based on metadata.json
+				// TODO: transform date fields based on metadata.json or other mechanism
 			}
 			return instance;
 		}
 		
-//		private static var classMap:Object = {
-//			'authors' : Author,
-//			'posts'   : Post,
-//			'comments': Comment
-//		}
 		public static function classForResource(resourceName:String):Class {
-			// TODO: implement find associated class based on RemoteClass or other non hardcoded mechanism?
-			switch(resourceName)
-			{
-				case 'authors'	: return Author;
-				case 'posts'	: return Post;
-				case 'comments'	: return Comment;
-				default 		: return Object;
-			}
-			//return classMap[resourceName]; 
+			var clazz:Class = resourceMap[resourceName];
+			return clazz ? clazz : Object;
 		}
+		
+		static protected var resourceMap:Object = {};
+		static protected function resource(resourceName:String, clazz:Class):void {
+			resourceMap[resourceName] = clazz;
+		}
+		
+		//-----------------------------------------------
+		// ENCODER
+		//-----------------------------------------------
+		
+		/**
+		 * This method generates the json to be sent to the Rails app bulk_api.
+		 * Outputs {"authors":[{attr1:value, attr2:value}]"}
+		 * @arg resourceName - the name of the resource
+		 * @data - an objet with one attribute per changed resource, i.e. {todos:[], projects:[]}
+		 * @return the json string backed for the bulk_api.
+		 */
+		static public function to_json(data:Object):String {
+			var resources:Array = getAttributeNames(data);
+			var json:Object = {}
+			for each (var resource:String in resources) {
+				json[resource] = encodeArray(toArrayCollection(data[resource]));
+			}
+			return new JSONEncoder(json).getString();	
+		}
+		
+		static public function encodeArray(records:ArrayCollection):Array {
+			// _local_id
+			var result:Array = [];
+			for each (var record:Object/*BulkResource instance*/ in records) {
+				result.push(encodeObject(record));
+			}
+			return result;
+		}		
+		
+		static public function encodeObject(record:Object):Object {
+			if (record is ObjectProxy) {
+				var result:Object = {};
+				var attributes:Array = getAttributeNames(record);
+				for each (var attr:String in attributes) {
+					if (record[attr] is ArrayCollection) {
+						result[attr] = encodeArray(record[attr]);
+					} else {
+						result[attr] = record[attr]
+					}
+				}				
+				return result;
+			} 
+			else {
+				return record;
+			}
+		}
+		//-----------------------------------------------
+		// COMMON UTILITIES
+		//-----------------------------------------------
 		
 		public static function getAttributeNames(record:Object):Array {
 			var result:Array = [];
@@ -84,9 +139,12 @@ package bulk_api
 			return result;
 		}
 		
-		
-		public function as_json():String {
-			return null;	
+		public static function toArrayCollection(array:*):ArrayCollection {
+			if (array==null) return null;
+			if (array is ArrayCollection) return array;
+			if (array is Array) return new ArrayCollection(array);
+			return new ArrayCollection(ArrayUtil.toArray(array));
 		}
+		
 	}
 }
