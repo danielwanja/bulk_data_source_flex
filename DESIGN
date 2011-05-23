@@ -1,6 +1,13 @@
 This document contains several design decisions or thoughts I'll make along the way:
 
-5/20/2001
+5/23/2011
+- Add simple rest support based on the following:
+	api_bulk GET    /api/bulk(.:format) {:controller=>"bulk/api", :action=>"get"}
+	         POST   /api/bulk(.:format) {:controller=>"bulk/api", :action=>"create"}
+	         PUT    /api/bulk(.:format) {:controller=>"bulk/api", :action=>"update"}
+	         DELETE /api/bulk(.:format) {:controller=>"bulk/api", :action=>"delete"}
+
+5/20/2011
 - Metadata or Not
 	Rather than using metadata we could check if an attribute has a String that is formatted like 
 	a Rails date and turn into a that and mark that column as a date.

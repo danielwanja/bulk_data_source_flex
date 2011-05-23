@@ -9,14 +9,14 @@
 			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()">
 	<fx:Script>
 		<![CDATA[
-			import test.bulk_api.BulkEncoderTest;
-			import test.bulk_api.BulkDecoderTest;
+			import test.bulk_api.BulkResourceTest;
+			import org.flexunit.runner.Request;
 			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();
-				testsToRun.push(test.bulk_api.BulkDecoderTest);
-				testsToRun.push(test.bulk_api.BulkEncoderTest);
+				
+				testsToRun.push(Request.methods(test.bulk_api.BulkResourceTest,["testFindOne"]));
 				return testsToRun;
 			}
 			

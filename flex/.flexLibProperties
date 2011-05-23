@@ -11,6 +11,7 @@
     <classEntry path="bulk_api.BulkEncoder"/>
     <classEntry path="bulk_api.BulkDecoder"/>
     <classEntry path="bulk_api.BulkUtility"/>
+    <classEntry path="test.bulk_api.BulkResourceTest"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

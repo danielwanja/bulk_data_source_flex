@@ -5,6 +5,9 @@ package test.models
 	[RemoteClass(alias="Author")]
 	public dynamic class Author extends BulkResource
 	{
-		resource("authors", Author); // FIXME: name could be inferred...Unfortunaltely static class not.
+		// FIXME: name could be inferred...Unfortunaltely static class not.
+		//		  shall we use the singular form: resource("author", Author);
+		//		  could default to class name i.e. resource(Author)
+		resource("authors", Author); 
 	}
 }

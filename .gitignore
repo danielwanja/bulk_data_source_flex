@@ -4,4 +4,4 @@ db/*.sqlite3
 log/*.log
 tmp/
 bin-debug
-.FlexUnitSettings/
+.FlexUnitSettings/*

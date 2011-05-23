@@ -61,7 +61,7 @@ Note the server side define the attributes and associations to be returned. So i
 You can then query these nested objects from ActionScript:
 
 ```javascript
-    var posts:BulkArrayCollection = BulkResource.findAll(Author)
+    var posts:ArrayCollection = BulkResource.findAll(Author)
 ```
 
 Create one post:
