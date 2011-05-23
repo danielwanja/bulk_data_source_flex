@@ -3,11 +3,14 @@
   <includeClasses>
     <classEntry path="bulk_api.BulkResource"/>
     <classEntry path="test.models.Author"/>
-    <classEntry path="test.bulk_api.BulkResourceDeserializeTest"/>
+    <classEntry path="test.bulk_api.BulkDecoderTest"/>
     <classEntry path="test.models.Post"/>
     <classEntry path="test.models.Comment"/>
     <classEntry path="test.fixtures.Fixtures"/>
-    <classEntry path="test.bulk_api.BulkResourceSerializeTest"/>
+    <classEntry path="test.bulk_api.BulkEncoderTest"/>
+    <classEntry path="bulk_api.BulkEncoder"/>
+    <classEntry path="bulk_api.BulkDecoder"/>
+    <classEntry path="bulk_api.BulkUtility"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

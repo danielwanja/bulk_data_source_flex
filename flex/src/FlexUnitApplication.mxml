@@ -9,16 +9,14 @@
 			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()">
 	<fx:Script>
 		<![CDATA[
-			import test.bulk_api.BulkResourceSerializeTest;
-			import test.bulk_api.BulkResourceDeserializeTest;
-			import mx.core.IFlexModuleFactory;
-			private var link:IFlexModuleFactory;
+			import test.bulk_api.BulkEncoderTest;
+			import test.bulk_api.BulkDecoderTest;
 			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();
-				testsToRun.push(test.bulk_api.BulkResourceDeserializeTest);
-				testsToRun.push(test.bulk_api.BulkResourceSerializeTest);
+				testsToRun.push(test.bulk_api.BulkDecoderTest);
+				testsToRun.push(test.bulk_api.BulkEncoderTest);
 				return testsToRun;
 			}
 			

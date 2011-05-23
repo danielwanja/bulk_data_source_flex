@@ -1,4 +1,4 @@
-# WARNING: Still under heavy maintenance ;) In fact I just started yesterday! So don't believe yet everything your read in this readme.
+# WARNING: Still under heavy development ;) In fact I just started on the return from RailsConf 2011! 
 
 # BulkDataSource - An ActionScript Framework to integrate with Ruby on Rails
 
@@ -69,7 +69,7 @@ Create one post:
 ```javascript
 	var post:Post = new Post()
 	post.body = "Simple way to interact with Rails"
-	post.comments = new BulkArrayCollection
+	post.comments = new ArrayCollection
 	var comment:Comment = new Comment({content:'Using RDD - Readme Driven Development'})
 	post.comments.addItem(comment)
 	BulkResource.save(post)
@@ -78,7 +78,7 @@ Create one post:
 ### Mananged Service
 
 ```javascript
-     BulkDataSource.autoCommit = true;
+     BulkResource.autoCommit = true;
 	// Now any changes is queue and regularly sent to the server.
 ```
 

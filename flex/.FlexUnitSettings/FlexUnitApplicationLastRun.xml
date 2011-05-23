@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testrun name="" >
 <testsuite  name="Default Test Suite" project="bulk_data_source">
-<testsuite name="test.bulk_api:BulkResourceDeserializeTest" type="testsuiteclass"/>
-<testsuite name="test.bulk_api:BulkResourceSerializeTest" type="testsuiteclass"/>
+<testsuite name="test.bulk_api:BulkDecoderTest" type="testsuiteclass"/>
+<testsuite name="test.bulk_api:BulkEncoderTest" type="testsuiteclass"/>
 </testsuite>
 </testrun>

@@ -1,5 +1,6 @@
 package test.bulk_api
 {
+	import bulk_api.BulkEncoder;
 	import bulk_api.BulkResource;
 	
 	import com.adobe.serialization.json.JSONDecoder;
@@ -14,7 +15,7 @@ package test.bulk_api
 	import test.models.Author;
 	import test.models.Post;
 
-	public class BulkResourceSerializeTest
+	public class BulkEncoderTest
 	{		
 		private var fixtures:Fixtures = new Fixtures;
 		
@@ -23,7 +24,7 @@ package test.bulk_api
 			var author:Author = new Author();
 			author.name = "Daniel";
 			author.owned_essay_id = "A Modest Proposal";
-			var json:String = BulkResource.to_json({"authors":[author]});
+			var json:String = BulkEncoder.to_json({"authors":[author]});
 			// redecode for easier testing			
 			var actual:Object = new JSONDecoder(json, true).getValue();
 			assertTrue("Expected root attribute object to be an array", actual.authors is Array);
@@ -45,7 +46,7 @@ package test.bulk_api
 			post.body = "This rocks!"
 			author.posts.addItem(post);
 			
-			var json:String = BulkResource.to_json({"authors":[author]});
+			var json:String = BulkEncoder.to_json({"authors":[author]});
 			// redecode for easier testing			
 			var actual:Object = new JSONDecoder(json, true).getValue();
 			assertTrue("Expected posts to be an array", actual.authors[0].posts is Array);

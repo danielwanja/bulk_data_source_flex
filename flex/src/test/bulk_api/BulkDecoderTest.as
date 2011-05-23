@@ -1,6 +1,8 @@
 package test.bulk_api
 {
+	import bulk_api.BulkDecoder;
 	import bulk_api.BulkResource;
+	import bulk_api.BulkUtility;
 	
 	import mx.collections.ArrayCollection;
 	import mx.core.IFlexModuleFactory;
@@ -18,27 +20,27 @@ package test.bulk_api
 	import test.models.Author;
 	import test.models.Post;
 
-	public class BulkResourceDeserializeTest
+	public class BulkDecoderTest
 	{		
 		private var fixtures:Fixtures = new Fixtures;
 		
 		[Test]
 		public function testEmtpyArray():void {
-			var data:Object = BulkResource.from_json('{"authors":[]}');
+			var data:Object = BulkDecoder.from_json('{"authors":[]}');
 			assertTrue("Expected ArrayCollection class", data.authors is ArrayCollection);
 			assertEquals(0, data.authors.length);
 		}
 		
 		[Test]
 		public function testEmptyResponse():void {
-			var authors:Object = BulkResource.from_json('{}');
-			var attributes:Array = BulkResource.getAttributeNames(authors); // Using internal method to check if result is really empty.
+			var authors:Object = BulkDecoder.from_json('{}');
+			var attributes:Array = BulkUtility.getAttributeNames(authors); // Using internal method to check if result is really empty.
 			assertEquals(0, attributes.length);
 		}
 		
 		[Test]
 		public function testSimpleResource():void {
-			var data:Object = BulkResource.from_json(fixtures.authors);
+			var data:Object = BulkDecoder.from_json(fixtures.authors);
 			assertTrue("Expected ArrayCollection class", data.authors is ArrayCollection);
 			var author1:Object = data.authors.getItemAt(0);
 			var author2:Object = data.authors.getItemAt(1);
@@ -69,7 +71,7 @@ package test.bulk_api
 				
 		[Test]
 		public function testNestedResources():void {
-			var data:Object = BulkResource.from_json(fixtures.authors_with_posts_and_comments);
+			var data:Object = BulkDecoder.from_json(fixtures.authors_with_posts_and_comments);
 			var authors:ArrayCollection = data.authors;
 			assertEquals(3, authors.length);
 			var author:Author = authors.getItemAt(0) as Author;
@@ -86,10 +88,10 @@ package test.bulk_api
 		[Test]
 		public function testMultipleRootAttributes():void {
 			var json:String = '{"authors":[{"id":1,"name":"David"}], "posts":[{"id":2, "body":"post1"},{"id":3, "body":"post2"}]}';
-			var data:Object = BulkResource.from_json(json);
+			var data:Object = BulkDecoder.from_json(json);
 			assertEquals(1, data.authors.length);
 			assertEquals(2, data.posts.length);
-			assertEquals("Expecting only authors and post as data attributes", 2, BulkResource.getAttributeNames(data).length); 
+			assertEquals("Expecting only authors and post as data attributes", 2, BulkUtility.getAttributeNames(data).length); 
 		}
 		
 	}
