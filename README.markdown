@@ -63,7 +63,9 @@ You can then query these nested objects from ActionScript:
 ```javascript
     var call:AsyncToken = BulkResource.findAll(Post);
 ```
+
 or
+
 ```javascript
     var call:AsyncToken = BulkResource.find(Post, 1);
 ```
