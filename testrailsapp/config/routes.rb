@@ -1,4 +1,6 @@
 Testrailsapp::Application.routes.draw do
+  resources :todos
+
   mount Bulk::Sproutcore.new => "/_sproutcore"
 
   bulk_routes "/api/bulk"

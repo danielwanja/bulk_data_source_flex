@@ -81,31 +81,6 @@ Create one post:
 	BulkResource.save(post)
 ```
 
-### Mananged Service
-
-```javascript
-     BulkResource.autoCommit = true;
-	// Now any changes is queue and regularly sent to the server.
-```
-
-###  Empty Objects
-
-Objects can be autoloaded when needed
-
-```javascript
-	BulkResource.find(Post,1, {empty:'comments'}) 
-	// returns Post with comments collection without attributes, just the ids
-	// Object can be loaded incrementally as needed.
-```
-
-### Server Side Validations
-
-Based on https://github.com/bcardarella/client_side_validations
-
-### Uniqueing 
-
-Memory map instance by class type and object id to ensure uniqueness in memory.
-
 ### RoadMap
 
 1. Serialize/Deserialize

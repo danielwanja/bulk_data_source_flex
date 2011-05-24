@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090101010101) do
+ActiveRecord::Schema.define(:version => 20110524024132) do
 
   create_table "authors", :force => true do |t|
     t.string  "name",                    :null => false
@@ -47,6 +47,13 @@ ActiveRecord::Schema.define(:version => 20090101010101) do
     t.integer "tags_count",                     :default => 0
     t.integer "tags_with_destroy_count",        :default => 0
     t.integer "tags_with_nullify_count",        :default => 0
+  end
+
+  create_table "todos", :force => true do |t|
+    t.string   "title"
+    t.boolean  "done"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

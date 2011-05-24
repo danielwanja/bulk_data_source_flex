@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Trying to copy the following Sproutcore app: http://getting-started.strobeapp.com/
+-->
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:flexlib="http://code.google.com/p/flexlib/"
+			   minWidth="955" minHeight="600"
+			   creationComplete="loadAll()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace flexlib "http://code.google.com/p/flexlib/";
+		
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import bulk_api.BulkResource;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import resources.Todo;
+			
+			//---------------------------------------------
+			// Model
+			//---------------------------------------------
+			[Bindable] protected var todos:ArrayCollection;
+			
+			//---------------------------------------------
+			// Controller
+			//---------------------------------------------
+			
+			protected function loadAll():void {
+				BulkResource.findAll(Todo).addResponder(new AsyncResponder(loadAllResult, faultHandler));
+			}
+			
+			private function loadAllResult(event:ResultEvent, token:Object=null):void
+			{
+				todos = event.result.todos as ArrayCollection;
+			}
+			
+			protected function markAllAsDone():void {
+				
+			}
+			
+			protected function clearCompletedTodos():void {
+				
+			}
+			
+			protected function addTodo():void {
+				var todo:Todo = new Todo({title:newTodo.text, done:false})
+				var call:AsyncToken = BulkResource.create(Todo, todo);
+				call.addResponder(new AsyncResponder(addTodoResult, faultHandler));
+			}
+			
+			private function addTodoResult(event:ResultEvent, token:Object=null):void
+			{
+				todos.addItem(event.result.todos.getItemAt(0));
+				newTodo.text = "";
+			}			
+			
+			protected function toggleDone():void {
+				
+			}
+			
+			protected function faultHandler(event:FaultEvent, token:Object=null):void {
+				trace(event); // TODO: add error notification
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Panel left="120" right="120" top="100" bottom="100" horizontalCenter="0" title="Todos">
+		<s:BorderContainer left="10" right="10" top="10" height="49" cornerRadius="6" backgroundColor="#f0f0f0"
+						   dropShadowVisible="true">
+			<flexlib:PromptingTextInput id="newTodo" width="100%" 
+										fontFamily="Arial" fontSize="36" prompt="What needs to be done?"
+										keyUp="if (event.keyCode==Keyboard.ENTER) addTodo()"/>
+		</s:BorderContainer>
+		<s:BorderContainer  x="0" y="67" width="100%" height="30" backgroundColor="#EEEEEE">
+			<s:Label y="9" left="10" text="Label"/>
+			<s:Button y="4.5" right="10" label="Clear Completed Todos"/>
+		</s:BorderContainer>
+		<s:CheckBox x="10" y="105" label="Mark All as Done "/>
+		<s:List dataProvider="{todos}" 
+			left="10" right="10" top="130" bottom="10" itemRenderer="TodoItemRenderer" />
+	</s:Panel>
+</s:Application>
