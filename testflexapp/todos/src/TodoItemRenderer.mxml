@@ -3,6 +3,6 @@
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				autoDrawBackground="true">
 	
-	<s:CheckBox label="{data.title}" selected="@{data.done}" />
+	<s:CheckBox label="{data.title}" selected="@{data.done}"  alpha="{data.done?0.4:1.0}" lineThrough="{data.done}"/>
 	
 </s:ItemRenderer>

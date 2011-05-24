@@ -5,7 +5,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:flexlib="http://code.google.com/p/flexlib/"
-			   minWidth="955" minHeight="600"
+			   minWidth="400" minHeight="500"
 			   creationComplete="loadAll()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -20,6 +20,8 @@
 			import bulk_api.BulkResource;
 			
 			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.events.CollectionEventKind;
 			import mx.rpc.AsyncResponder;
 			import mx.rpc.AsyncToken;
 			import mx.rpc.events.FaultEvent;
@@ -43,14 +45,34 @@
 			private function loadAllResult(event:ResultEvent, token:Object=null):void
 			{
 				todos = event.result.todos as ArrayCollection;
+				todos.addEventListener(CollectionEvent.COLLECTION_CHANGE, todoChangeEventHandle);
 			}
 			
+			protected function todoChangeEventHandle(event:CollectionEvent):void
+			{
+				if (event.kind==CollectionEventKind.UPDATE) {
+					trace("@@Updates :"+event.items.length);
+				} else {
+					trace("@@Something else changed:"+event.kind);
+				}	
+				remainingLabel.executeBindings();
+			}			
 			protected function markAllAsDone():void {
-				
+				if (markAllAsDoneButton.selected) {
+					try {
+						todos.disableAutoUpdate();
+						for each (var todo:Todo in todos) {
+							todo.done = true;
+						}
+					} finally {
+						todos.enableAutoUpdate();
+					}
+					markAllAsDoneButton.selected = false;
+				}
 			}
 			
 			protected function clearCompletedTodos():void {
-				
+				// collect all done ones and bulk delete
 			}
 			
 			protected function addTodo():void {
@@ -65,14 +87,18 @@
 				newTodo.text = "";
 			}			
 			
-			protected function toggleDone():void {
-				
-			}
 			
 			protected function faultHandler(event:FaultEvent, token:Object=null):void {
 				trace(event); // TODO: add error notification
 			}
 			
+			protected function itemsRemaining(items:ArrayCollection):String {
+				var count:Number=0;
+				for each (var todo:Todo in items) {
+					if (!todo.done) count++;
+				}
+				return count==1 ? "1 item" : count+" items";
+			}
 		]]>
 	</fx:Script>
 	<s:Panel left="120" right="120" top="100" bottom="100" horizontalCenter="0" title="Todos">
@@ -82,12 +108,14 @@
 										fontFamily="Arial" fontSize="36" prompt="What needs to be done?"
 										keyUp="if (event.keyCode==Keyboard.ENTER) addTodo()"/>
 		</s:BorderContainer>
-		<s:BorderContainer  x="0" y="67" width="100%" height="30" backgroundColor="#EEEEEE">
-			<s:Label y="9" left="10" text="Label"/>
-			<s:Button y="4.5" right="10" label="Clear Completed Todos"/>
+		<s:BorderContainer  x="0" y="67" width="100%" height="30" backgroundColor="#EEEEEE" borderVisible="false">
+			<s:Label id="remainingLabel" y="9" left="10" text="{itemsRemaining(todos)} remaining."/>
+			<s:Button y="4.5" right="10" label="Clear Completed Todos" />
 		</s:BorderContainer>
-		<s:CheckBox x="10" y="105" label="Mark All as Done "/>
+		<s:CheckBox id="markAllAsDoneButton" x="10" y="105" label="Mark All as Done" click="markAllAsDone()"/>
 		<s:List dataProvider="{todos}" 
-			left="10" right="10" top="130" bottom="10" itemRenderer="TodoItemRenderer" />
+				borderVisible="false"
+				alternatingItemColors="[#FFFFFF, #EEEEEE]"				
+				left="10" right="10" top="130" bottom="10" itemRenderer="TodoItemRenderer" />
 	</s:Panel>
 </s:Application>
