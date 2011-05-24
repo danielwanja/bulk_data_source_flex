@@ -13,6 +13,13 @@ package bulk_api
 			return result;
 		}
 		
+		public static function copyAttributes(from:Object, to:Object):void {
+			if (from==null||to==null) return;
+			for (var attr:String in from) {
+				to[attr] = from[attr];
+			}			
+		}
+		
 		public static function toArrayCollection(array:*):ArrayCollection {
 			if (array==null) return null;
 			if (array is ArrayCollection) return array;

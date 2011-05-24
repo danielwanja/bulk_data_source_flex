@@ -20,8 +20,9 @@ package bulk_api
 	public class BulkResource extends ObjectProxy
 	{
 		static public var baseUrl:String = "http://localhost:3000";
-		public function BulkResource() {
+		public function BulkResource(attributes:Object=null) {
 			super();
+			BulkUtility.copyAttributes(attributes, this);
 		}
 
 		static public function find(clazz:Class, id:Number):AsyncToken {
@@ -36,8 +37,39 @@ package bulk_api
 			return call(http);
 		}
 		
+		static public function create(clazz:Class, data:Object):AsyncToken {
+			var http:HTTPService = new HTTPService();
+			http.url = baseUrl+"/api/bulk"; //?"+resourceForClass(clazz);
+			http.method = "POST";
+			http.resultFormat = "text";
+			http.contentType = "application/json";
+			return call(http, BulkEncoder.to_json(data))
+		}
+
+		static public function update(clazz:Class, data:Object):AsyncToken {
+			var http:HTTPService = new HTTPService();
+			http.url = baseUrl+"/api/bulk?_method=put"; //?"+resourceForClass(clazz);
+			http.method = "PUT";
+			http.resultFormat = "text";
+			http.contentType = "application/json";
+			return call(http, BulkEncoder.to_json(data))
+		}
+		
+		static public function destroy(clazz:Class, data:Object):AsyncToken {
+			var http:HTTPService = new HTTPService();
+			http.url = baseUrl+"/api/bulk?_method=delete"; //?"+resourceForClass(clazz);
+			http.method = "DELETE";
+			http.resultFormat = "text";
+			http.contentType = "application/json";
+			return call(http, BulkEncoder.to_json(data))
+		}
+		
+		//-----------------------------------------------------------
+		// DATA CONVERSION METHODS
+		//-----------------------------------------------------------
+		
 		static protected function call(service:HTTPService, params:Object=null):AsyncToken {
-			var call:AsyncToken = service.send();
+			var call:AsyncToken = service.send(params);
 			call.addResponder(new AsyncResponder(handleResult, handleFault));
 			return call;			
 		}
@@ -47,24 +79,12 @@ package bulk_api
 		}
 		
 		static protected function handleFault(fault:FaultEvent, token:Object=null):void {
-			
+			// TODO: see how to deal with error object
 		}
-		
-		static public function save(...args):AsyncToken {
-			return null;
-		}
-		
-		static public function get autoCommit():Boolean {
-			return false;	
-		}
-		
-		static public function set autoCommit(value:Boolean):void {
-			
-		}
-		
-		static public function get pendingChanges():ArrayCollection {
-			return null;
-		}
+
+		//-----------------------------------------------------------
+		// CLASS REGISTRY METHODS
+		//-----------------------------------------------------------
 		
 		public static function classForResource(resourceName:String):Class {
 			var clazz:Class = resourceMap[resourceName];

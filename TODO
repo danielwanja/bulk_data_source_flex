@@ -1,6 +1,7 @@
 * Resource (that actual calls a server)
 * Deal with Dates
-* Refactor BulkResource into three classes: BulkResource, BulkDeserializer, BulkSerializer
+* Authentication Token Support
+* baseUrl
 * Add rake task to compile flex and run tests
 * Flex demo TODO app (same as SproutCore's demo)
 
@@ -16,3 +17,4 @@ Complete:
 * Deserialize
 * Serialize
 * Support multiple root attributes  i.e. {todos:[], projects:[]}
+* Refactor BulkResource into three classes: BulkResource, BulkDeserializer, BulkSerializer
