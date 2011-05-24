@@ -55,7 +55,7 @@
 			
 			protected function addTodo():void {
 				var todo:Todo = new Todo({title:newTodo.text, done:false})
-				var call:AsyncToken = BulkResource.create(Todo, todo);
+				var call:AsyncToken = BulkResource.create(Todo, {todos:new ArrayCollection([todo])});
 				call.addResponder(new AsyncResponder(addTodoResult, faultHandler));
 			}
 			
