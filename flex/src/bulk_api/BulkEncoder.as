@@ -42,7 +42,8 @@ package bulk_api
 					} else {
 						result[attr] = record[attr]
 					}
-				}				
+				}	
+				result._local_id = record.uid;
 				return result;
 			} 
 			else {
