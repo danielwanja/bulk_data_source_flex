@@ -49,5 +49,8 @@ module Testrailsapp
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    
+    # Removing Rack::Lock as it's currently causing a deadlock issue
+    config.middleware.delete(Rack::Lock)
   end
 end
