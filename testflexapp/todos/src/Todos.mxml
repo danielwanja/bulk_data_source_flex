@@ -22,6 +22,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.CollectionEvent;
 			import mx.events.CollectionEventKind;
+			import mx.events.PropertyChangeEvent;
 			import mx.rpc.AsyncResponder;
 			import mx.rpc.AsyncToken;
 			import mx.rpc.events.FaultEvent;
@@ -50,13 +51,21 @@
 			
 			protected function todoChangeEventHandle(event:CollectionEvent):void
 			{
-				if (event.kind==CollectionEventKind.UPDATE) {
-					trace("@@Updates :"+event.items.length);
-				} else {
-					trace("@@Something else changed:"+event.kind);
-				}	
+				if (event.kind!=CollectionEventKind.UPDATE) return;
+				var todos:Array = [];
+				for each (var changeEvent:PropertyChangeEvent in event.items) {
+					todos.push(changeEvent.source);
+				}
+				var call:AsyncToken = BulkResource.update(Todo, {todos:new ArrayCollection(todos)});
+				call.addResponder(new AsyncResponder(todoUpdateResult, faultHandler));
 				remainingLabel.executeBindings();
-			}			
+			}	
+			
+			private function todoUpdateResult(event:ResultEvent, token:Object=null):void
+			{
+				// FIXME: update local object. For now assuming everything is in sync.
+			}	
+			
 			protected function markAllAsDone():void {
 				if (markAllAsDoneButton.selected) {
 					try {
@@ -72,8 +81,21 @@
 			}
 			
 			protected function clearCompletedTodos():void {
-				// collect all done ones and bulk delete
-			}
+				var done:Array = [];
+				for each (var todo:Todo in todos) {
+					if (todo.done) done.push(todo.id);
+				}			
+				var call:AsyncToken = BulkResource.destroy(Todo, {todos:new ArrayCollection(done)});
+				call.addResponder(new AsyncResponder(todoDeleteResult, faultHandler));
+				remainingLabel.executeBindings();
+			}	
+			
+			private function todoDeleteResult(event:ResultEvent, token:Object=null):void
+			{
+				for each (var todo:Todo in todos.source.concat()) {
+					if (todo.done) todos.removeItemAt(todos.getItemIndex(todo));
+				}	
+			}	
 			
 			protected function addTodo():void {
 				var todo:Todo = new Todo({title:newTodo.text, done:false})
@@ -86,7 +108,6 @@
 				todos.addItem(event.result.todos.getItemAt(0));
 				newTodo.text = "";
 			}			
-			
 			
 			protected function faultHandler(event:FaultEvent, token:Object=null):void {
 				trace(event); // TODO: add error notification
@@ -110,7 +131,7 @@
 		</s:BorderContainer>
 		<s:BorderContainer  x="0" y="67" width="100%" height="30" backgroundColor="#EEEEEE" borderVisible="false">
 			<s:Label id="remainingLabel" y="9" left="10" text="{itemsRemaining(todos)} remaining."/>
-			<s:Button y="4.5" right="10" label="Clear Completed Todos" />
+			<s:Button y="4.5" right="10" label="Clear Completed Todos" click="clearCompletedTodos()" />
 		</s:BorderContainer>
 		<s:CheckBox id="markAllAsDoneButton" x="10" y="105" label="Mark All as Done" click="markAllAsDone()"/>
 		<s:List dataProvider="{todos}" 
