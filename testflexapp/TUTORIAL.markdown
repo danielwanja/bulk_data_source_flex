@@ -1,10 +1,25 @@
 ### Create the todo Rails app
+rvm use 1.9.2@bulk_data_source
 
-(add instruction to get start with the Rails app)
+rails new todos
+cd todos
+
+In GemFile
+
 gem 'bulk_api'
+
+# Rails fixes/hacks
+gem 'sprockets', :git => 'git://github.com/sstephenson/sprockets.git'
+
 rails generate bulk:install
 rails g scaffold todo title:string done:boolean
 rake db:migrate
+
+
+in application.rb add
+    config.middleware.delete(Rack::Lock)
+
+
 rails s
 
 ### Create the todos Flex app

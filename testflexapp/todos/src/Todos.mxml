@@ -7,13 +7,33 @@
 			   xmlns:flexlib="http://code.google.com/p/flexlib/"
 			   minWidth="400" minHeight="500"
 			   creationComplete="loadAll()">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace flexlib "http://code.google.com/p/flexlib/";
 		
+		s|BorderContainer.todo_entry
+		{
+			backgroundColor: #f0f0f0;
+			cornerRadius: 6;
+			dropShadowVisible: true;
+		}
+		
+		flexlib|PromptingTextInput.todo_entry
+		{
+			fontFamily: Arial;
+			fontSize: 36;
+		}
+		s|BorderContainer.stripe
+		{
+			backgroundColor: #EEEEEE;
+			borderVisible: false;
+		}
+		s|List.todo_list
+		{
+			alternatingItemColors: #FFFFFF, #EEEEEE;
+			borderVisible: false;
+		}
+				
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
@@ -45,7 +65,7 @@
 			
 			private function loadAllResult(event:ResultEvent, token:Object=null):void
 			{
-				todos = event.result.todos as ArrayCollection;
+				todos = event.result.todos as ArrayCollection || new ArrayCollection();
 				todos.addEventListener(CollectionEvent.COLLECTION_CHANGE, todoChangeEventHandle);
 			}
 			
@@ -123,20 +143,17 @@
 		]]>
 	</fx:Script>
 	<s:Panel left="120" right="120" top="100" bottom="100" horizontalCenter="0" title="Todos">
-		<s:BorderContainer left="10" right="10" top="10" height="49" cornerRadius="6" backgroundColor="#f0f0f0"
-						   dropShadowVisible="true">
-			<flexlib:PromptingTextInput id="newTodo" width="100%" 
-										fontFamily="Arial" fontSize="36" prompt="What needs to be done?"
-										keyUp="if (event.keyCode==Keyboard.ENTER) addTodo()"/>
+		<s:BorderContainer left="10" right="10" top="10" height="49" styleName="todo_entry">
+			<flexlib:PromptingTextInput id="newTodo" width="100%"
+										keyUp="if (event.keyCode==Keyboard.ENTER) addTodo()"
+										prompt="What needs to be done?" styleName="todo_entry"/>
 		</s:BorderContainer>
-		<s:BorderContainer  x="0" y="67" width="100%" height="30" backgroundColor="#EEEEEE" borderVisible="false">
+		<s:BorderContainer x="0" y="67" width="100%" height="30" styleName="stripe">
 			<s:Label id="remainingLabel" y="9" left="10" text="{itemsRemaining(todos)} remaining."/>
 			<s:Button y="4.5" right="10" label="Clear Completed Todos" click="clearCompletedTodos()" />
 		</s:BorderContainer>
 		<s:CheckBox id="markAllAsDoneButton" x="10" y="105" label="Mark All as Done" click="markAllAsDone()"/>
-		<s:List dataProvider="{todos}" 
-				borderVisible="false"
-				alternatingItemColors="[#FFFFFF, #EEEEEE]"				
-				left="10" right="10" top="130" bottom="10" itemRenderer="TodoItemRenderer" />
+		<s:List left="10" right="10" top="130" bottom="10" dataProvider="{todos}"
+				itemRenderer="TodoItemRenderer" styleName="todo_list"/>
 	</s:Panel>
 </s:Application>
