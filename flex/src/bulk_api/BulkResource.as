@@ -39,17 +39,18 @@ package bulk_api
 		
 		static public function create(clazz:Class, data:Object):AsyncToken {
 			var http:HTTPService = new HTTPService();
-			http.url = baseUrl+"/api/bulk"; //?"+resourceForClass(clazz);
+			http.url = baseUrl+"/api/bulk";
 			http.method = "POST";
 			http.resultFormat = "text";
-			http.contentType = "application/json";
+			http.contentType = "application/json";			
 			return call(http, BulkEncoder.to_json(data))
 		}
 
 		static public function update(clazz:Class, data:Object):AsyncToken {
 			var http:HTTPService = new HTTPService();
-			http.url = baseUrl+"/api/bulk?_method=put"; //?"+resourceForClass(clazz);
-			http.method = "PUT";
+			http.url = baseUrl+"/api/bulk";
+			http.method = "POST";
+			http.headers={X_HTTP_METHOD_OVERRIDE:'put'}; // tell Rails we really want a put
 			http.resultFormat = "text";
 			http.contentType = "application/json";
 			return call(http, BulkEncoder.to_json(data))
@@ -57,8 +58,9 @@ package bulk_api
 		
 		static public function destroy(clazz:Class, data:Object):AsyncToken {
 			var http:HTTPService = new HTTPService();
-			http.url = baseUrl+"/api/bulk?_method=delete"; //?"+resourceForClass(clazz);
-			http.method = "DELETE";
+			http.url = baseUrl+"/api/bulk";
+			http.method = "POST";
+			http.headers={X_HTTP_METHOD_OVERRIDE:'delete'}; // tell Rails we really want a delete
 			http.resultFormat = "text";
 			http.contentType = "application/json";
 			return call(http, BulkEncoder.to_json(data))

@@ -109,7 +109,7 @@ package test.bulk_api
 		public function testDeleteStep2(event:AbstractEvent, token:Object=null):void {
 			var posts:ArrayCollection = Object(event).result.posts as ArrayCollection;
 			beforeDeleteCount = posts.length;
-			invoke( BulkResource.destroy(Post, {posts:new ArrayCollection([posts.getItemAt(0)])}), assertTestDelete );			
+			invoke( BulkResource.destroy(Post, {posts:new ArrayCollection([posts.getItemAt(0).id])}), assertTestDelete );			
 		}
 		
 		private function assertTestDelete(event:AbstractEvent, token:Object=null):void
@@ -120,9 +120,14 @@ package test.bulk_api
 			assertEquals(1, data.posts.length);  
 			assertTrue("Expected Post instance in result", data.posts.getItemAt(0) is Post);
 			var post:Post = data.posts.getItemAt(0) as Post;
-			assertEquals("Black Rain", post.body);
+			invoke( BulkResource.findAll(Post), assertTestDeleteDifference);
 		}		
-		
+
+		public function assertTestDeleteDifference(event:AbstractEvent, token:Object=null):void {
+			var posts:ArrayCollection = Object(event).result.posts as ArrayCollection;
+			assertEquals(beforeDeleteCount,  posts.length+1);
+		}
+
 		protected function invoke(call:AsyncToken, responder:Function, timeout:Number=2000):void {
 			call.addResponder(
 				Async.asyncResponder(this, new AsyncResponder(responder, responder), timeout));			
