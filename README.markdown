@@ -78,14 +78,18 @@ Create one post:
 	post.comments = new ArrayCollection
 	var comment:Comment = new Comment({content:'Using RDD - Readme Driven Development'})
 	post.comments.addItem(comment)
-	BulkResource.save(post)
+    BulkResource.create(Todo, {posts:new ArrayCollection([post])});
 ```
 
 ### RoadMap
 
-1. Serialize/Deserialize
-2. CRUD rest requests
-3. ... let's take it one step at a time.
+1. Error Support
+2. More test around nested resources
+3. DataSource that tracks changes and automatically syncs with the server
+
+### Screencast
+
+Checkout my screencast [Building Rails App for Rich Client](http://www.onrails.org/2011/05/27/building-rails-apps-for-rich-client-using-the-bulk_api-from-flex) in which I show how to build a Rails app in a couple of minutes that is optimized for Rich Client. The application is a todo application build in Flex connecting using the [bulk_api](https://github.com/drogus/bulk_api) to the Rails server using my new bulk data source Flex framework.
 
 ### Community
 

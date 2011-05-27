@@ -1,4 +1,5 @@
-* Resource (that actual calls a server)
+* Deal with Dates
+* Error Handling
 * Deal with Dates
 * Authentication Token Support
 * baseUrl
@@ -18,3 +19,4 @@ Complete:
 * Serialize
 * Support multiple root attributes  i.e. {todos:[], projects:[]}
 * Refactor BulkResource into three classes: BulkResource, BulkDeserializer, BulkSerializer
+* Resource (that actual calls a server)
