@@ -1,0 +1,10 @@
+<flex-config>
+  <compiler>
+    <source-path append="true">
+      <path-element>src</path-element>
+    </source-path>
+    <library-path append="true">
+      <path-element>libs</path-element>
+    </library-path> 
+  </compiler>
+</flex-config>

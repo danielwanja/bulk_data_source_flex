@@ -1,0 +1,20 @@
+# Make sure the Flex SDK is in your path. 
+# I.e in your ~/.bash_profile add
+#    export PATH="$PATH:/Applications/Adobe Flash Builder 4.5/sdks/4.5.0/bin"
+#
+
+FLEX_SRC='src'
+FLEX_TEST_SRC='tests/src'
+FLEX_LIB='lib'
+FLEX_BIN='bin'
+
+FLASH_PLAYER_LINUX='flashplayerdebugger'
+FLASH_PLAYER_OSX="\"/Applications/Adobe Flash Builder 4.5/player/mac/10.2/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger\"" 
+
+desc "Compile the bulk_data_source.swc library"
+task :compile do
+    puts "Compiling bulk_data_source.swc.mxml"
+    sh %{ mkdir -p bin-debug }
+    sh %{ mxmlc -load-config+=config.xml -compiler.debug -output=bin-debug/Todos.swf src/Todos.mxml }
+    
+end
