@@ -11,7 +11,6 @@ class InitialSetup < ActiveRecord::Migration
     create_table :comments, :force => true do |t|
       t.integer :post_id, :null => false
       t.text    :body, :null => false
-      t.string  :type
       t.integer :taggings_count, :default => 0
     end
     create_table :essays, :force => true do |t|
@@ -25,7 +24,6 @@ class InitialSetup < ActiveRecord::Migration
       t.integer :author_id
       t.string  :title, :null => false
       t.text    :body, :null => false
-      t.string  :type
       t.integer :comments_count, :default => 0
       t.integer :taggings_count, :default => 0
       t.integer :taggings_with_delete_all_count, :default => 0

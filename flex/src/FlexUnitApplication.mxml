@@ -10,13 +10,11 @@
 	<fx:Script>
 		<![CDATA[
 			import test.bulk_api.BulkResourceTest;
-			import org.flexunit.runner.Request;
 			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();
-				
-				testsToRun.push(Request.methods(test.bulk_api.BulkResourceTest,["testDelete"]));
+				testsToRun.push(test.bulk_api.BulkResourceTest);
 				return testsToRun;
 			}
 			

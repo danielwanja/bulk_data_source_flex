@@ -7,6 +7,7 @@ package test.bulk_api
 	import mx.rpc.AsyncToken;
 	import mx.rpc.events.AbstractEvent;
 	import mx.rpc.events.ResultEvent;
+	import mx.rpc.http.HTTPService;
 	
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertTrue;
@@ -15,16 +16,19 @@ package test.bulk_api
 	import test.models.Post;
 
 	// FIXME: mock call to server.
-	// Reset the Rails testrailsapp:
-	//    $ rake db:reset
-	//    $ rake db:fixtures:load
+	// First time before starting the Rails server
+	//    $ bundle exec rake db:create
+	//    $ bundle exec rake db:migrate
 	// Start the Rails testrailsapp:
 	//   $ rails s
 	public class BulkResourceTest
 	{		
-		[Before]
+		[Before(async)]
 		public function setUp():void
 		{
+			var fixtures:HTTPService = new HTTPService();
+			fixtures.url = "http://localhost:3000/fixtures/reset";
+			invoke( fixtures.send(), proceed);
 		}
 		
 		[After]
@@ -102,11 +106,12 @@ package test.bulk_api
 		
 		[Test(async)]
 		public function testDelete():void {
-			invoke( BulkResource.findAll(Post), testDeleteStep2);
+			invoke( BulkResource.findAll(Post), testDeleteStep2, 3000);
 		}
 		
 		private var beforeDeleteCount:Number;
 		public function testDeleteStep2(event:AbstractEvent, token:Object=null):void {
+			assertTrue(event is ResultEvent);			
 			var posts:ArrayCollection = Object(event).result.posts as ArrayCollection;
 			beforeDeleteCount = posts.length;
 			invoke( BulkResource.destroy(Post, {posts:new ArrayCollection([posts.getItemAt(0).id])}), assertTestDelete );			
@@ -132,5 +137,10 @@ package test.bulk_api
 			call.addResponder(
 				Async.asyncResponder(this, new AsyncResponder(responder, responder), timeout));			
 		}
+		
+		protected function proceed(event:AbstractEvent, token:Object=null):void {
+			// do nothing
+		}
+		
 	}
 }

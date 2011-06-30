@@ -1,4 +1,6 @@
 Testrailsapp::Application.routes.draw do
+  get "fixtures/reset"
+
   resources :todos
 
   mount Bulk::Sproutcore.new => "/_sproutcore"

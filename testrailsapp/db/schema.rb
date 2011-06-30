@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(:version => 20110524024132) do
   create_table "comments", :force => true do |t|
     t.integer "post_id",                       :null => false
     t.text    "body",                          :null => false
-    t.string  "type"
     t.integer "taggings_count", :default => 0
   end
 
@@ -39,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20110524024132) do
     t.integer "author_id"
     t.string  "title",                                         :null => false
     t.text    "body",                                          :null => false
-    t.string  "type"
     t.integer "comments_count",                 :default => 0
     t.integer "taggings_count",                 :default => 0
     t.integer "taggings_with_delete_all_count", :default => 0
