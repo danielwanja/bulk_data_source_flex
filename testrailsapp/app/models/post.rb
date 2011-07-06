@@ -18,5 +18,7 @@ class Post < ActiveRecord::Base
       find(:first, :order => "id DESC")
     end
   end
-
+  
+  validates_presence_of :title, :message => "can't be blank"
+  validates_presence_of :body, :message => "can't be blank"
 end

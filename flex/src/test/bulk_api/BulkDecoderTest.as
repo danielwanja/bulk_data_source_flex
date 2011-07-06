@@ -94,5 +94,17 @@ package test.bulk_api
 			assertEquals("Expecting only authors and post as data attributes", 2, BulkUtility.getAttributeNames(data).length); 
 		}
 		
+		[Test]
+		public function testErrors():void {
+			var json:String = '{"errors":{"posts":{"FD39E566-BECB-EFD8-9DDE-FD0B1FBD558A":{"type":"invalid","data":{"title":["can\'t be blank"]}}}}}'
+			var data:Object = BulkDecoder.from_json(json);
+			assertNotNull("Expected errors", data.errors)
+			assertNotNull("Expected posts errors", data.errors.posts)
+			assertNotNull(data.errors.posts["FD39E566-BECB-EFD8-9DDE-FD0B1FBD558A"])
+			assertEquals("invalid", data.errors.posts["FD39E566-BECB-EFD8-9DDE-FD0B1FBD558A"].type)
+			assertEquals(1, data.errors.posts["FD39E566-BECB-EFD8-9DDE-FD0B1FBD558A"].data.title.length);
+			assertEquals("can't be blank", data.errors.posts["FD39E566-BECB-EFD8-9DDE-FD0B1FBD558A"].data.title[0]);
+		}
+		
 	}
 }

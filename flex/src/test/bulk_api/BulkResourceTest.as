@@ -10,6 +10,8 @@ package test.bulk_api
 	import mx.rpc.http.HTTPService;
 	
 	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertNotNull;
+	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 	import org.flexunit.async.Async;
 	
@@ -35,6 +37,9 @@ package test.bulk_api
 		public function tearDown():void
 		{
 		}
+		
+		// FIND
+		//---------------------------------------------------------------------
 		
 		[Test(async)]
 		public function testFindAll():void {
@@ -64,6 +69,9 @@ package test.bulk_api
 			assertTrue("Expected Post instance in result", data.posts.getItemAt(0) is Post);
 		}		
 		
+		// CREATE
+		//---------------------------------------------------------------------
+		
 		[Test(async)]
 		public function testCreate():void {
 			var post1:Post = new Post({title:"Rails Rocks!", body:"A long description..."});
@@ -77,9 +85,12 @@ package test.bulk_api
 			assertTrue(event is ResultEvent);
 			var data:Object = (event as ResultEvent).result;
 			assertTrue("Expected data.posts to be an ArrayCollection", data.posts is ArrayCollection);
-			assertEquals(2, data.posts.length);  // <-- Test Fails, only last post is returned. Would expect all posts.
+			assertEquals(2, data.posts.length); 
 			assertTrue("Expected Post instance in result", data.posts.getItemAt(0) is Post);
 		}			
+		
+		// UPDATE
+		//---------------------------------------------------------------------
 		
 		[Test(async)]
 		public function testUpdate():void {
@@ -102,6 +113,9 @@ package test.bulk_api
 			var post:Post = data.posts.getItemAt(0) as Post;
 			assertEquals("Black Rain", post.body);
 		}			
+		
+		// DELETE
+		//---------------------------------------------------------------------
 		
 		
 		[Test(async)]
@@ -137,6 +151,41 @@ package test.bulk_api
 			call.addResponder(
 				Async.asyncResponder(this, new AsyncResponder(responder, responder), timeout));			
 		}
+		
+		// VALIDATIONS
+		//---------------------------------------------------------------------
+		
+		[Test(async)]
+		public function testValidations():void {
+			var post:Post = new Post({title:"", body:""});
+			var post2:Post = new Post({title:"", body:"another description"});
+			invoke( BulkResource.create(Post, {posts:new ArrayCollection([post, post2])}),
+				assertTestValidations );
+		}
+		
+		/*
+		{"errors":{"posts":{"78022718-C553-4E40-1E85-FD1AE349F987":{"type":"invalid","data":{"title":["can't be blank"]}},"C9912FEB-4963-0042-EA8F-FD1AE34A816B":{"type":"invalid","data":{"title":["can't be blank"]}}}}}
+		{"errors":{"posts":{"F423EEE3-CB64-6D21-DA7D-FD1CC0D1F16C":{"type":"invalid","data":{"title":["can't be blank"],"body":["can't be blank"]}},"219F1154-7224-AFBD-68BB-FD1CC0D1A3EB":{"type":"invalid","data":{"title":["can't be blank"]}}}}}
+		*/
+		private function assertTestValidations(event:AbstractEvent, token:Object=null):void
+		{
+			assertTrue(event is ResultEvent);
+			var data:Object = (event as ResultEvent).result;
+			assertTrue("Expected data.posts to be an ArrayCollection", data.posts is ArrayCollection);
+			assertEquals(2, data.posts.length);
+			var post1:Post = data.posts.getItemAt(0) as Post
+			assertNotNull(post1.errors);
+			assertEquals("can't be blank", post1.errors.title.join(","))
+			assertEquals("can't be blank", post1.errors.body.join(","))
+
+			var post2:Post = data.posts.getItemAt(1) as Post
+			assertNotNull(post2.errors);
+			assertEquals("can't be blank", post2.errors.title.join(","))
+			assertNull(post2.errors.body)
+		}	
+		
+		// HELPERS
+		//---------------------------------------------------------------------
 		
 		protected function proceed(event:AbstractEvent, token:Object=null):void {
 			// do nothing

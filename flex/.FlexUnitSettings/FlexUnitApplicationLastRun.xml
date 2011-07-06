@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testrun name="" >
 <testsuite  name="Default Test Suite" project="bulk_data_source">
-<testsuite name="test.bulk_api:BulkResourceTest" type="testsuiteclass"/>
+<testsuite name="test.bulk_api:BulkResourceTest" type="testcaseclass">
+<testcase name="testValidations" classname="test.bulk_api:BulkResourceTest"/>
+</testsuite>
 </testsuite>
 </testrun>

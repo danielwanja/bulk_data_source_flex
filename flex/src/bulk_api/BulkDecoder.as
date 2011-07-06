@@ -12,10 +12,18 @@ package bulk_api
 		 */
 		static public function from_json(json:String):Object {
 			var actionScript:Object = new JSONDecoder(json, /*strict*/true).getValue();
-			var resources:Array = BulkUtility.getAttributeNames(actionScript);
 			var result:Object = {};
+
+			// Pass errors straight onto result
+			var errors:Object = actionScript.errors;
+			if (errors) {
+				delete actionScript.errors;
+				result.errors = errors;
+			}
+
+			var resources:Array = BulkUtility.getAttributeNames(actionScript);
 			for each (var resource:String in resources) {
-				result[resource] = decodeArray(resource, actionScript[resource] as Array)
+				result[resource] = decodeArray(resource, actionScript[resource] as Array);
 			}
 			return result;
 		}
