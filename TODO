@@ -1,6 +1,5 @@
 * Deal with Dates
 * Error Handling
-* Deal with Dates
 * Authentication Token Support
 * baseUrl
 * Add rake task to compile flex and run tests
