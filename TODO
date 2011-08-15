@@ -1,5 +1,5 @@
+* Error Handling  (started, use Error.as class)
 * Deal with Dates
-* Error Handling
 * Authentication Token Support
 * baseUrl
 * Add rake task to compile flex and run tests
