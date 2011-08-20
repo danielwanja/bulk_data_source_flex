@@ -9,14 +9,12 @@
 			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()">
 	<fx:Script>
 		<![CDATA[
-			import test.bulk_api.BulkResourceTest;
-			import org.flexunit.runner.Request;
+			import test.bulk_api.BulkDecoderTest;
 			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();
-				
-				testsToRun.push(Request.methods(test.bulk_api.BulkResourceTest,["testValidations"]));
+				testsToRun.push(test.bulk_api.BulkDecoderTest);
 				return testsToRun;
 			}
 			
